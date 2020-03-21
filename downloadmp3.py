@@ -11,9 +11,22 @@ def DownloadFile(mp3_url, save_url,file_name, request_type='get'):
         if not folder:
             os.makedirs(save_url)
         # 读取MP3资源
-        print(type(requests))
+        # print(type(requests))
+
+        headers = {
+            'Accept': '*/*',
+            'Connection': 'keep-alive',
+            'DNT': '1',
+            'Host': 'isure.stream.qqmusic.qq.com',
+            'Range': 'bytes=0-',
+            'Referer': 'https://y.qq.com/portal/player.html',
+            'Accept-Encoding': 'identity;q=1, *;q=0',
+            'Cookie': '',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
+        }
+
         use_request_type = getattr(requests, request_type)
-        res = use_request_type(mp3_url)
+        res = use_request_type(mp3_url, headers=headers)
         # res = requests.get(mp3_url)
         # 获取文件地址
         file_path = os.path.join(save_url, file_name)
@@ -29,10 +42,11 @@ def DownloadFile(mp3_url, save_url,file_name, request_type='get'):
 if __name__ == "__main__":
     # MP3源地址url
     # url = 'https://res.wx.qq.com/voice/getvoice?mediaid=MzU1Njc2MzY3M18yMjQ3NDg0MTkx'
-    url = 'http://antiserver.kuwo.cn/anti.s?rid=MUSIC_79885733&response=res&format=mp3|aac&type=convert_url&br=128kmp3&agent=iPhone&callback=getlink&jpcallback=getlink.mp3'
+    url = 'https://isure.stream.qqmusic.qq.com/C400001R0QWN3gDgIN.m4a?guid=410688340&vkey=6986450083FF460662D950519E593459F9D80BD7E8B74C0619AF56385410A22C8B657D02FB0B648BF0C2015D2823FD990EFC56316F375778&uin=1906&fromtag=66'
     # MP3保存文件夹
     # save_url='D:/music/'
-    save_url = '/Users/zhanwangyanjing/downloaded-music'
+    save_url = '/Users/zhaoshenghua/development/downloadedFiles'
     # MP3文件名
-    file_name = 'mymusic1.mp3'
-    DownloadFile(url,save_url, file_name, 'get')
+    file_names = ['myMusic1.m4a', 'myMusic2.mp3', 'myMusic2.mp4', 'greyRoad.m4a']
+    file_name = file_names[3]
+    DownloadFile(url, save_url, file_name, 'get')
